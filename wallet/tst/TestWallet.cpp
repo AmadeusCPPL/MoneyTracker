@@ -1,5 +1,7 @@
 #include <fstream>
 #include <string>
+#include <stdio.h>
+#include <windows.h>
 #include "gtest/gtest.h"
 #include "Wallet.h"
 
@@ -63,14 +65,54 @@ TEST(CreateWalletTest, TestCreateExistingWallet)
 	//CLEANUP
 	cleanUp(filename);
 } 
-TEST(CreateWalletTest, TestCreateWithPath)
+TEST(CreateWalletTest, TestCreateWithExistingPath)
 {
 	//ARRANGE
 	Wallet wallet;
 	std :: string filename = "wallet\\tst\\file";
 	wallet.createNewWalletFile(filename, '+', 00.00);
 	//ASSERT
-	EXPECT_EQ(1 , wallet.fileExists(filename));
+	EXPECT_EQ(true , wallet.fileExists(filename));
 	//CLEANUP
 	cleanUp(filename);
 }
+
+TEST(CreateWalletTest, TestCreateWithNonExistingPath)
+{
+	//ARRANGE
+	Wallet wallet;
+	std :: string path = "wallet\\tst\\file";
+	std :: string filename = "file";
+	std :: string fullfilename;
+	fullfilename = path + "\\" + filename;
+	//cout <<"fisierul este ::::::::::::::::::::::::::::::" <<fullfilename <<endl; 
+		if (CreateDirectory(path.c_str(), NULL)) {
+			//cout<<"YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"<<endl;
+			wallet.createNewWalletFile(fullfilename, '+', 00.00);
+		}
+
+	//ASSERT
+	EXPECT_EQ(true , wallet.fileExists(fullfilename));
+	//CLEANUP
+	cleanUp(fullfilename);
+	RemoveDirectory((path).c_str());
+}
+/* TEST(CreateWalletTest, TestMada)
+{
+	Wallet wallet;
+	std::string path = "C:\\mada";
+	std::string file = "C:\\mada\\mmm.txt";
+	
+	bool createDir = CreateDirectory(path.c_str(),NULL);
+	std::cout << "mmmmmmmmmmmmmmmmmmmmmm" << createDir << std::endl;
+	wallet.createNewWalletFile(file, '+', 00.00);
+	//helperCreateWallet(file);
+	EXPECT_EQ(1 , wallet.fileExists(file));
+	
+	if(createDir == true)
+	{
+		createDir = remove(file.c_str());
+		createDir = RemoveDirectory(path.c_str());
+		std::cout << "aaaaaaaaaaaaaaaaaaaaaaa" << createDir << std::endl;
+	} 
+} */

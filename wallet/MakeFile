@@ -1,37 +1,38 @@
-RM = rm
-
+CPP = g++
 COMP = g++ -Wall
-
-LINK = g++ -o
+CPPFLAGS = -Wall
 
 GTEST_DIR=C:\gtest-1.7.0\gtest-1.7.0
-
 GTEST_LIB=$(GTEST_DIR)\make\gtest_main.a
-
 GTEST_INC=-isystem $(GTEST_DIR)\include
 
-main: moneytracker.exe
+AR = ar crf
 
-moneytracker: moneytracker.exe 
-
-moneytracker.exe: wallet\src\WalletEntry.o main\src\MoneyTracker.o wallet\src\Wallet.o interpreter\src\Interpreter.o config\src\Errors.o
-	$(LINK) moneytracker.exe config\src\Errors.o wallet\src\WalletEntry.o wallet\src\Wallet.o interpreter\src\Interpreter.o main\src\MoneyTracker.o
-
-main\src\MoneyTracker.o: main\src\MoneyTracker.cpp interpreter\src\Interpreter.cpp interpreter\inc\Interpreter.h
-	$(COMP) -Iconfig\inc -Iinterpreter\inc -Iwallet\inc -o main\src\MoneyTracker.o -c main\src\MoneyTracker.cpp
-
-interpreter\src\Interpreter.o: interpreter\src\Interpreter.cpp interpreter\inc\interpreter.h interpreter\inc\ListOfCommands.h config\inc\Errors.h
-	$(COMP)	-Iwallet\inc -Iconfig\inc -Iinterpreter\inc -o interpreter\src\Interpreter.o -c interpreter\src\Interpreter.cpp
-
-wallet\src\Wallet.o: wallet\src\Wallet.cpp wallet\src\WalletEntry.cpp wallet\inc\Wallet.h wallet\inc\WalletEntry.h config\inc\Errors.h
-	$(COMP) -Iwallet\inc -Iconfig\inc -o wallet\src\Wallet.o -c wallet\src\Wallet.cpp 
-
-wallet\src\WalletEntry.o: wallet\src\WalletEntry.cpp wallet\inc\WalletEntry.h
-	$(COMP) -Iwallet\inc -Iconfig\inc -o wallet\src\WalletEntry.o -c wallet\src\WalletEntry.cpp
+HEADERS =\
+	inc\Wallet.h\
+	inc\WalletEntry.h\
+	..\config\inc\Errors.h\
+	..\interpreter\inc\Interpreter.h
 	
-config\src\Errors.o: config\src\Errors.cpp config\inc\ErrorTypes.h config\inc\Errors.h
-	$(COMP) -Iconfig\inc -o config\src\Errors.o -c config\src\Errors.cpp
+Wallet.a: src\Wallet.o src\WalletEntry.o
+	$(AR) Wallet.a src\Wallet.o src\WalletEntry.o
+	
+src\Wallet.o: src\Wallet.cpp $(HEADERS)
+	$(COMP)	-Iinc -I..\config\inc -o src\Wallet.o -c src\Wallet.cpp
+
+src\WalletEntry.o: src\WalletEntry.cpp $(HEADERS)
+	$(COMP) -Iinc -o src\WalletEntry.o -c src\WalletEntry.cpp
+	
+	
+TestWallet.exe: tst\TestWallet.o src\Wallet.o $(GTEST_LIB)
+	$(CPP) -o tst\TestWallet.exe tst\TestWallet.o src\Wallet.o ..\config\src\Errors.o ..\wallet\src\WalletEntry.o $(GTEST_LIB)
+
+tst\TestWallet.o: $(HEADERS) tst\TestWallet.cpp
+	$(CPP) $(CPPFLAGS) $(GTEST_INC) -Iinc -o tst\TestWallet.o -c tst\TestWallet.cpp 
 	
 clean:
-	$(RM) *.o
-	$(RM) *.exe
+	rm src\Wallet.o
+	rm src\WalletEntry.o
+	rm Wallet.a
+	rm tst\TestWallet.o
+	rm tst\TestWallet.exe
