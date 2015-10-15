@@ -1,6 +1,0 @@
-nu merge
-
-nu cred
-
-ba merge
-
