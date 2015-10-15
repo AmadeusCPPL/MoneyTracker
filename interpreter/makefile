@@ -13,21 +13,21 @@ HEADERS =\
 	inc\ListOfCommands.h\
 	..\wallet\inc\Wallet.h\
 	..\wallet\inc\WalletEntry.h\
-	..\config\inc\Errors.h
+	..\errors\inc\Errors.h
 	
 HEADERS2 = \
 	-Iinc\
 	-I..\wallet\inc\
-	-I..\config\inc
+	-I..\errors\inc
 	
 Interpreter.a: src\Interpreter.o
 	$(AR) Interpreter.a src\Interpreter.o
 	
 TestInterpreter.exe: tst\TestInterpreter.o src\Interpreter.o $(GTEST_LIB)
-	$(CPP) -o tst\TestInterpreter.exe tst\TestInterpreter.o src\Interpreter.o ..\config\src\Errors.o ..\wallet\src\Wallet.o ..\wallet\src\WalletEntry.o $(GTEST_LIB)
+	$(CPP) -o tst\TestInterpreter.exe tst\TestInterpreter.o src\Interpreter.o ..\errors\src\Errors.o ..\wallet\src\Wallet.o ..\wallet\src\WalletEntry.o $(GTEST_LIB)
 	
 src\Interpreter.o: src\Interpreter.cpp $(HEADERS)
-	$(COMP)	-Iinc -I..\wallet\inc -I..\config\inc -o src\Interpreter.o -c src\Interpreter.cpp
+	$(COMP)	-Iinc -I..\wallet\inc -I..\errors\inc -o src\Interpreter.o -c src\Interpreter.cpp
 
 tst\TestInterpreter.o:tst\TestInterpreter.cpp $(HEADERS)
 	$(COMP) $(GTEST_INC) $(HEADERS2) -o tst\TestInterpreter.o -c tst\TestInterpreter.cpp

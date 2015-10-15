@@ -11,21 +11,21 @@ AR = ar crf
 HEADERS =\
 	inc\Wallet.h\
 	inc\WalletEntry.h\
-	..\config\inc\Errors.h\
+	..\errors\inc\Errors.h\
 	..\interpreter\inc\Interpreter.h
 	
 Wallet.a: src\Wallet.o src\WalletEntry.o
 	$(AR) Wallet.a src\Wallet.o src\WalletEntry.o
 	
 src\Wallet.o: src\Wallet.cpp $(HEADERS)
-	$(COMP)	-Iinc -I..\config\inc -o src\Wallet.o -c src\Wallet.cpp
+	$(COMP)	-Iinc -I..\errors\inc -o src\Wallet.o -c src\Wallet.cpp
 
 src\WalletEntry.o: src\WalletEntry.cpp $(HEADERS)
 	$(COMP) -Iinc -o src\WalletEntry.o -c src\WalletEntry.cpp
 	
 	
 TestWallet.exe: tst\TestWallet.o src\Wallet.o $(GTEST_LIB)
-	$(CPP) -o tst\TestWallet.exe tst\TestWallet.o src\Wallet.o ..\config\src\Errors.o ..\wallet\src\WalletEntry.o $(GTEST_LIB)
+	$(CPP) -o tst\TestWallet.exe tst\TestWallet.o src\Wallet.o ..\errors\src\Errors.o ..\wallet\src\WalletEntry.o $(GTEST_LIB)
 
 tst\TestWallet.o: $(HEADERS) tst\TestWallet.cpp
 	$(CPP) $(CPPFLAGS) $(GTEST_INC) -Iinc -o tst\TestWallet.o -c tst\TestWallet.cpp 
