@@ -4,6 +4,7 @@
 #include <windows.h>
 #include "gtest/gtest.h"
 #include "Wallet.h"
+#include "ConfigData.h"
 
 using namespace std;
 //helper function
@@ -97,6 +98,26 @@ TEST(CreateWalletTest, TestCreateWithNonExistingPath)
 	cleanUp(fullfilename);
 	RemoveDirectory((path).c_str());
 }
+
+TEST(ConfigDataTest, TestMain)
+{
+	//ARRANGE
+	cout<<endl<<endl;
+	
+	
+	ConfigData configData;
+	string file = configData.getWallet();
+	cout<<"fisierul config este : "<<file<<endl;
+	
+	cout<<endl<<endl;
+	//ASSERT
+	
+	//EXPECT_EQ("-12.24 RON", readWallet("leading0.wallet"));
+	//CLEANUP
+
+}
+
+
 /* TEST(CreateWalletTest, TestMada)
 {
 	Wallet wallet;

@@ -5,6 +5,7 @@
 #include <iomanip>
 #include "Wallet.h"
 #include "Errors.h"
+#include "ConfigData.h"
 
 using namespace std;
 
@@ -16,9 +17,9 @@ Wallet :: Wallet ()
 void Wallet :: createNewWalletFile (const std :: string &wallet, 
 									const char operation, const float amount) 
 {
-	/*cout<<"OHOOOOOO "<<wallet<<endl;
-	cout<<"OHOOOOOO "<<operation<<endl;
-	cout<<"OHOOOOOO "<<amount<<endl; */
+	//cout<<"OHOOOOOO "<<wallet<<endl;
+	//cout<<"OPERATION "<<operation<<endl;
+	//cout<<"OHOOOOOO "<<amount<<endl;
 	string fileName = wallet;
 	if (fileExists (fileName.c_str())) {
 		Error_C :: SetError(FILE_NAME_ERR);	
@@ -47,26 +48,38 @@ void Wallet :: createNewWalletFile (const std :: string &wallet,
 	}
 }
 
-void Wallet :: addIncome(const std :: string &wallet, const char operation, 
-				const float amount) 
-{
-	string fileName = wallet;
-	if (fileExists (fileName.c_str())) {
-		ofstream workFile;
-		//output.open( filename.c_str(), ios::out | ios::app );
-		WalletEntry walletEntry;
-		workFile.open(fileName.c_str(), ios::app);
-		workFile << walletEntry.getTimestamp () << ";" << operation << ";";
-		if (amount != 0) {
-			workFile << fixed << setprecision(2) << amount << ";"; 
+void Wallet :: addEntry(const char operation, const float amount, 
+							const std::string &typeOfEntry) 
+{	
+	ConfigData configData;
+	string fileName = configData.getWallet();
+	if (fileName != "") {
+		//cout<<"fisierul defaullt este : "<<fileName<<endl;
+		if (fileExists (fileName.c_str())) {
+			ofstream workFile;
+			//output.open( filename.c_str(), ios::out | ios::app );
+			WalletEntry walletEntry;
+			workFile.open(fileName.c_str(), ios::app);
+			workFile << walletEntry.getTimestamp () << ";" << operation << ";";
+			if (amount != 0) {
+				workFile << fixed << setprecision(2) << amount << ";"; 
+			} else {
+				workFile << "00.00" << ";";
+			}
+			workFile <<"\""<<typeOfEntry<<"\""<<";"<<"RON \n"; 
+			workFile.close();
+			if (typeOfEntry == "salary") {
+				Success_C::SetSuccess(INCOME_REG_SUCC);
+				Success_C :: PrintSuccess(fileName, operation, amount);
+			} else if (typeOfEntry == "other") {
+				Success_C::SetSuccess(SPEND_REG_SUCC);
+				Success_C :: PrintSuccess(fileName, operation, amount);
+			}
 		} else {
-			workFile << "00.00" << ";";
+			//cout<<"Error the wallet file does not exist : "<<endl;
+			Error_C::SetError(OPEN_FILE_ERR);
+			Error_C::PrintError(fileName);
 		}
-		workFile <<"RON \n"; 
-		workFile.close();
-	} else {
-		//cout<<"Error the wallet file does not exist : "<<endl;
-		Error_C :: SetError(OPEN_FILE_ERR);
 	}
 }
 

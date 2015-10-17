@@ -29,8 +29,8 @@ class Wallet
 								
 		//Adds a WalletEntry to the walletList		
 		//Input : walletName , sign of the amount, amount
-		void addIncome(const std :: string &wallet, const char operation, 
-						const float amount);
+		void addEntry(const char operation, const float amount, 
+						const std::string &typeOfEntry);
 						
 		//check if a filename allready exists
 		//returns a bool 

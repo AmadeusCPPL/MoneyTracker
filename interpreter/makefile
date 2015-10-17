@@ -13,12 +13,13 @@ HEADERS =\
 	inc\ListOfCommands.h\
 	..\wallet\inc\Wallet.h\
 	..\wallet\inc\WalletEntry.h\
-	..\errors\inc\Errors.h
+	..\errors\inc\Errors.h\
 	
-HEADERS2 = \
+HEADERS2 =\
 	-Iinc\
 	-I..\wallet\inc\
-	-I..\errors\inc
+	-I..\errors\inc\
+	
 	
 Interpreter.a: src\Interpreter.o
 	$(AR) Interpreter.a src\Interpreter.o

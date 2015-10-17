@@ -18,6 +18,7 @@ class Success_C
 		//print function for printing the success messages
 		static void PrintSuccess(std :: string walletName = "", 
 								char operation = '\0', float amount = 0);
+		static std::string GetTime();
 };
 
 //error class used to manage error messages
