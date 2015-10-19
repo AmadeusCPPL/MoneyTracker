@@ -23,7 +23,7 @@ TestConfigData.exe: tst\TestConfigData.o src\ConfigData.o $(GTEST_LIB)
 	$(CPP) -o tst\TestConfigData.exe tst\TestConfigData.o src\ConfigData.o ..\errors\src\Errors.o $(GTEST_LIB)
 
 tst\TestConfigData.o: $(HEADERS) tst\TestConfigData.cpp
-	$(CPP) $(CPPFLAGS) $(GTEST_INC) -Iinc -o tst\TestConfigData.o -c tst\TestConfigData.cpp 
+	$(CPP) $(CPPFLAGS) $(GTEST_INC) -Iinc -I..\errors\inc -o tst\TestConfigData.o -c tst\TestConfigData.cpp 
 	
 clean:
 	rm src\ConfigData.o

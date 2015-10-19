@@ -14,6 +14,18 @@ TEST(SuccesTest, FILE_CREATED_SUCC)
 	ASSERT_EQ(FILE_CREATED_SUCC, Success_C::GetSuccess());
 }
 
+TEST(SuccesTest, INCOME_REG_SUCC)
+{
+	Success_C::SetSuccess(INCOME_REG_SUCC);
+	ASSERT_EQ(INCOME_REG_SUCC, Success_C::GetSuccess());
+}
+
+TEST(SuccesTest, SPEND_REG_SUCC)
+{
+	Success_C::SetSuccess(SPEND_REG_SUCC);
+	ASSERT_EQ(SPEND_REG_SUCC, Success_C::GetSuccess());
+}
+
 //=============================================================================
 TEST(ErrorTest, NoError)
 {
@@ -67,5 +79,35 @@ TEST(ErrorTest, OpenFileError)
 {
 	Error_C::SetError(OPEN_FILE_ERR);
 	ASSERT_EQ(OPEN_FILE_ERR, Error_C::GetError());
+}
+
+TEST(ErrorTest, OpenConfigError)
+{
+	Error_C::SetError(OPEN_CONFIG_ERR);
+	ASSERT_EQ(OPEN_CONFIG_ERR, Error_C::GetError());
+}
+
+TEST(ErrorTest, DefaultWalletConfigError)
+{
+	Error_C::SetError(DEFAULT_WALL_CONFIG_ERR);
+	ASSERT_EQ(DEFAULT_WALL_CONFIG_ERR, Error_C::GetError());
+}
+
+TEST(ErrorTest, NEG_SPEND_ERR)
+{
+	Error_C::SetError(NEG_SPEND_ERR);
+	ASSERT_EQ(NEG_SPEND_ERR, Error_C::GetError());
+}
+
+TEST(ErrorTest, INVALID_SPEND_ERR)
+{
+	Error_C::SetError(INVALID_SPEND_ERR);
+	ASSERT_EQ(INVALID_SPEND_ERR, Error_C::GetError());
+}
+
+TEST(ErrorTest, NO_SPEND_ERR)
+{
+	Error_C::SetError(NO_SPEND_ERR);
+	ASSERT_EQ(NO_SPEND_ERR, Error_C::GetError());
 }
 //=============================================================================

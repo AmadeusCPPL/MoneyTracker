@@ -14,18 +14,19 @@ HEADERS =\
 	..\wallet\inc\Wallet.h\
 	..\wallet\inc\WalletEntry.h\
 	..\errors\inc\Errors.h\
+	..\config\inc\ConfigData.h
 	
 HEADERS2 =\
 	-Iinc\
 	-I..\wallet\inc\
 	-I..\errors\inc\
-	
+	-I..\config\inc
 	
 Interpreter.a: src\Interpreter.o
 	$(AR) Interpreter.a src\Interpreter.o
 	
 TestInterpreter.exe: tst\TestInterpreter.o src\Interpreter.o $(GTEST_LIB)
-	$(CPP) -o tst\TestInterpreter.exe tst\TestInterpreter.o src\Interpreter.o ..\errors\src\Errors.o ..\wallet\src\Wallet.o ..\wallet\src\WalletEntry.o $(GTEST_LIB)
+	$(CPP) -o tst\TestInterpreter.exe tst\TestInterpreter.o src\Interpreter.o ..\errors\src\Errors.o ..\wallet\src\Wallet.o ..\wallet\src\WalletEntry.o ..\config\src\ConfigData.o $(GTEST_LIB)
 	
 src\Interpreter.o: src\Interpreter.cpp $(HEADERS)
 	$(COMP)	-Iinc -I..\wallet\inc -I..\errors\inc -o src\Interpreter.o -c src\Interpreter.cpp

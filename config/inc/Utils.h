@@ -13,11 +13,12 @@ std::string removeSpaces(std::string input)
 {
 	std::string str = input;
 	str.erase(std::remove(str.begin(),str.end(),' '),str.end());
+	str.erase(std::remove(str.begin(),str.end(),'\t'),str.end());
 	return str;
 }
 
 //function used to check if the amount is valid (does not contain ",")
-bool isValidAmount(const std::string &amount)
+/* bool isValidAmount(const std::string &amount)
 {
 	for(unsigned int i = 0; i < amount.length(); i++)
 	{
@@ -25,10 +26,10 @@ bool isValidAmount(const std::string &amount)
 			return 0;
 	}
 	return true;
-}
+} */
 
 //function used to return the operation "+" or "-"
-char returnOperation(const std::string &amount)
+/* char returnOperation(const std::string &amount)
 {
 	char operation = '\0';
 	if(amount[0] == '-'){
@@ -38,10 +39,10 @@ char returnOperation(const std::string &amount)
 		operation = '+';
 	}
 	return operation;
-}
+} */
 
 //function used to return the float round number with 2 decimals
-float roundNumber (const char operation, const float number)
+/* float roundNumber (const char operation, const float number)
 {
 	if (operation == '+') {
 		return roundf(number * 100) / 100;
@@ -49,7 +50,7 @@ float roundNumber (const char operation, const float number)
 		return ceilf(number * 100) / 100;
 	}
 		
-}
+} */
 
 //function used to check if a filename allready exists, returns a bool 
 bool fileExists (const std::string &fileName) 

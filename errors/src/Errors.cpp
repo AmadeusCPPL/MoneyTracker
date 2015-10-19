@@ -60,14 +60,14 @@ void Success_C::PrintSuccess(std::string walletName, char operation,
 			std::cout << "Income 'salary' in an amount of "<< 
 						std::fixed << std::setprecision(2) << amount <<
 						 " RON was registered.\n";
-			std::cout << "Transaction time: "<< Success_C::GetTime();
+			std::cout << "Transaction time: "<< Success_C::GetTime()<<std::endl;
 		break;
 		
 		case SPEND_REG_SUCC:
 			std::cout<<"Spending 'other' in an amount of "<< 
 						std::fixed << std::setprecision(2) << amount <<
 					   " RON was registered.\n";
-			std::cout << "Transaction time: "<< Success_C::GetTime();
+			std::cout << "Transaction time: "<< Success_C::GetTime()<<std::endl;
 		break;
 		
 		default:

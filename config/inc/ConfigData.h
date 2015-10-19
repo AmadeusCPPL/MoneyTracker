@@ -16,7 +16,8 @@ class ConfigData
 		
 	public:
 		ConfigData();
-		std::string readFromFile(const std::string field);
+		std::string readFromFile(const std::string field, 
+			const std::string fileName = "moneytracker.config");
 		std :: string getWallet();
 		/* void updateFile(const std :: string key, const std :: string value);
 		std :: string getDefaultCurrency();

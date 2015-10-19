@@ -10,14 +10,14 @@ ConfigData::ConfigData()
 {
 }
 
-std::string ConfigData::readFromFile(const std::string field) 
+std::string ConfigData::readFromFile(const std::string field, const std::string fileName) 
 {
-	std::string fileName = "moneytracker.config";
-	if (fileExists (fileName.c_str())) {
+	//std::string fileName = "moneytracker.config";
+	/* if (fileExists (fileName.c_str())) {
 		fileName = "moneytracker.config";
 	} else {
 		fileName = "..\\moneytracker.config";
-	}
+	} */
 	bool flag = false;
 	string lineContent = "";
 	string result = "";
@@ -38,7 +38,7 @@ std::string ConfigData::readFromFile(const std::string field)
 		if (!flag) {
 			Error_C::SetError(DEFAULT_WALL_CONFIG_ERR);
 			Error_C::PrintError();
-			cout<<"ii de aici"<<endl;
+			//cout<<"ii de aici"<<endl;
 		}
 	} else {
 		Error_C::SetError(OPEN_CONFIG_ERR);

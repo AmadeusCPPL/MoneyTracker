@@ -4,46 +4,65 @@
 #include <windows.h>
 #include "gtest/gtest.h"
 #include "ConfigData.h"
+#include "Errors.h"
 
 using namespace std;
-//helper function
-//reads from the file created and returns the content
 
-std :: string readFile(const std::string fileName)
+
+TEST(ConfigDataRead, ValidtstConfig1)
 {
-	
-	ifstream file(fileName.c_str());
-	
-	string fileContent;
-	
-	//read from the given file
-	getline(file,fileContent);
-	
-	return fileContent;
+	ConfigData config;
+	string fileName = "config\\tstConfig1.config";
+	string existDefault = config.readFromFile("default_wallet", fileName);
+	ASSERT_EQ(existDefault, "my.wallet");
 }
 
-//helper function
-//removes a file created for testing purpose
-
-/* void cleanUp (std :: string walletName) {
-	if (fileExists(walletName.c_str())) {
-		remove(walletName.c_str());
-	}
-} */
-
-TEST(ConfigDataTest, TestMain)
+TEST(ConfigDataRead, ValidtstConfig2)
 {
-	//ARRANGE
-	cout<<endl<<endl;
-	
-	
-	ConfigData configData;
-	string file = configData.getWallet();
-	cout<<"fisierul config este : "<<file<<endl;
-	
-	cout<<endl<<endl;
-	//ASSERT
-	
-	//EXPECT_EQ("-12.24 RON", readWallet("leading0.wallet"));
-	//CLEANUP
+	ConfigData config;
+	string fileName = "config\\tstConfig2.config";
+	string existDefault = config.readFromFile("default_wallet", fileName);
+	ASSERT_EQ(existDefault, "my.wallet");
+}
+
+TEST(ConfigDataRead, ValidtstConfig4)
+{
+	ConfigData config;
+	string existDefault = config.readFromFile("default_wallet", "config\\tstConfig4.config");
+	ASSERT_EQ(existDefault, "my.wallet");
+}
+
+TEST(ConfigDataRead, InvalidtstConfig3)
+{
+	ConfigData config;
+	string existDefault = config.readFromFile("default_wallet", "config\\tstConfig3.config");
+	ASSERT_EQ(DEFAULT_WALL_CONFIG_ERR, Error_C::GetError());
+}
+
+TEST(ConfigDataRead, InvalidtstConfig5)
+{
+	ConfigData config;
+	string existDefault = config.readFromFile("default_wallet", "config\\tstConfig5.config");
+	ASSERT_EQ(DEFAULT_WALL_CONFIG_ERR, Error_C::GetError());
+}
+
+TEST(ConfigDataRead, InvalidtstConfig6)
+{
+	ConfigData config;
+	string existDefault = config.readFromFile("default_wallet", "config\\tstConfig6.config");
+	ASSERT_EQ(DEFAULT_WALL_CONFIG_ERR, Error_C::GetError());
+}
+
+TEST(ConfigDataRead, ConfigNotFound)
+{
+	ConfigData config;
+	string existDefault = config.readFromFile("default_wallet", "config\\tstNotExist.config");
+	ASSERT_EQ(OPEN_CONFIG_ERR, Error_C::GetError());
+}
+
+TEST(GetWallet, GetFileName)
+{
+	ConfigData config;
+	string existDefault = config.getWallet();
+	ASSERT_EQ(existDefault, "my.wallet");
 }

@@ -126,7 +126,6 @@ float Interpreter::roundNumber (const char operation, const float number)
 	} else {
 		return ceilf(number * 100) / 100;
 	}
-		
 }
 
 

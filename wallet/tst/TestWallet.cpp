@@ -1,15 +1,17 @@
 #include <fstream>
 #include <string>
+#include <sstream>
 #include <stdio.h>
 #include <windows.h>
 #include "gtest/gtest.h"
 #include "Wallet.h"
 #include "ConfigData.h"
+//#include "Utils.h"
 
 using namespace std;
+
 //helper function
 //reads from the file created and returns the content
-
 std :: string readWallet(const std::string walletName)
 {
 	
@@ -23,7 +25,36 @@ std :: string readWallet(const std::string walletName)
 	return walletContent;
 }
 
+//helper function
+//returns the last line of the file
+string readLastLine(const string fileName)
+{
+   ifstream file(fileName.c_str());
+   string lastLine;
+   string line;
+   if(file.is_open())
+   {
+	  while(getline(file,line))
+	  {
+		 bool isEmpty = true;
+		 for(unsigned int i = 0; i< line.size(); i++)
+		 {
+			char ch = line[i];
+			isEmpty = isEmpty && isspace(ch);
+		 }
+		 if(!isEmpty)
+		 {
+			lastLine = line; 
+		 }
+	  }
+									
+	  file.close();
+   }
+   return lastLine;
+}
 
+//helper function
+//deletes a file created for testing
 void cleanUp (std :: string walletName) {
 	Wallet wallet;
 	if (wallet.fileExists(walletName.c_str())) {
@@ -35,19 +66,19 @@ TEST(CreateWalletTest, TestCreateWallet)
 {
 	//ARRANGE
 	Wallet wallet;
-	wallet.createNewWalletFile("my.wallet", '+', 1000);
+	wallet.createNewWalletFile("my.wallett", '+', 1000);
 	wallet.createNewWalletFile("other.wallet" , '+', 200);
 	wallet.createNewWalletFile("yetother" , '-', 1021.23);
 	wallet.createNewWalletFile("noinitial.wallet", '+', 00.00);
 	wallet.createNewWalletFile("leading0.wallet" , '-', 00012.24);
 	//ASSERT
-	EXPECT_EQ("+1000.00 RON", readWallet("my.wallet"));
+	EXPECT_EQ("+1000.00 RON", readWallet("my.wallett"));
 	EXPECT_EQ("+200.00 RON", readWallet("other.wallet"));
 	EXPECT_EQ("-1021.23 RON", readWallet("yetother"));
 	EXPECT_EQ("+00.00 RON", readWallet("noinitial.wallet"));
 	EXPECT_EQ("-12.24 RON", readWallet("leading0.wallet"));
 	//CLEANUP
-	cleanUp("my.wallet");
+	cleanUp("my.wallett");
 	cleanUp("other.wallet");
 	cleanUp("yetother");
 	cleanUp("noinitial.wallet");
@@ -66,6 +97,7 @@ TEST(CreateWalletTest, TestCreateExistingWallet)
 	//CLEANUP
 	cleanUp(filename);
 } 
+
 TEST(CreateWalletTest, TestCreateWithExistingPath)
 {
 	//ARRANGE
@@ -99,25 +131,47 @@ TEST(CreateWalletTest, TestCreateWithNonExistingPath)
 	RemoveDirectory((path).c_str());
 }
 
-TEST(ConfigDataTest, TestMain)
+TEST(AddWalletEntryTest, TestAddIncome)
 {
 	//ARRANGE
-	cout<<endl<<endl;
-	
-	
-	ConfigData configData;
-	string file = configData.getWallet();
-	cout<<"fisierul config este : "<<file<<endl;
-	
-	cout<<endl<<endl;
+	Wallet wallet;
+	ConfigData configdata;
+	//wallet.createNewWalletFile(filename, '+', 00.00);
+	//configdata.getWallet();;
+	string filename = "my.wallet";
+	wallet.addEntry('+', 500, "salary");
+	WalletEntry walletEntry;
+	std::stringstream ss;
+    ss << walletEntry.getTimestamp() ;
+    std::string timestamp=ss.str();
+	string lastLine = readLastLine(filename);
 	//ASSERT
-	
-	//EXPECT_EQ("-12.24 RON", readWallet("leading0.wallet"));
+	string actual = timestamp+";+;500.00;\"salary\";RON ";
+	//cout <<"ceea ce cautam : " << actual<<endl;
+	EXPECT_EQ(actual, readLastLine(filename));
 	//CLEANUP
+} 
 
-}
-
-
+TEST(AddWalletEntryTest, TestAddSpending)
+{
+	//ARRANGE
+	Wallet wallet;
+	ConfigData configdata;
+	//wallet.createNewWalletFile(filename, '+', 00.00);
+	//configdata.getWallet();;
+	string filename = "my.wallet";
+	wallet.addEntry('-', 500, "other");
+	WalletEntry walletEntry;
+	std::stringstream ss;
+    ss << walletEntry.getTimestamp() ;
+    std::string timestamp=ss.str();
+	string lastLine = readLastLine(filename);
+	//ASSERT
+	string actual = timestamp+";-;500.00;\"other\";RON ";
+	//cout <<"ceea ce cautam : " << actual<<endl;
+	EXPECT_EQ(actual, readLastLine(filename));
+	//CLEANUP
+} 
 /* TEST(CreateWalletTest, TestMada)
 {
 	Wallet wallet;
@@ -128,7 +182,7 @@ TEST(ConfigDataTest, TestMain)
 	std::cout << "mmmmmmmmmmmmmmmmmmmmmm" << createDir << std::endl;
 	wallet.createNewWalletFile(file, '+', 00.00);
 	//helperCreateWallet(file);
-	EXPECT_EQ(1 , wallet.fileExists(file));
+	EXPECT_EQ(1 , fileExists(file));
 	
 	if(createDir == true)
 	{
