@@ -146,7 +146,7 @@ TEST(AddWalletEntryTest, TestAddIncome)
     std::string timestamp=ss.str();
 	string lastLine = readLastLine(filename);
 	//ASSERT
-	string actual = timestamp+";+;500.00;\"salary\";RON ";
+	string actual = timestamp+";+;500.00;salary;RON ";
 	//cout <<"ceea ce cautam : " << actual<<endl;
 	EXPECT_EQ(actual, readLastLine(filename));
 	//CLEANUP
@@ -167,7 +167,7 @@ TEST(AddWalletEntryTest, TestAddSpending)
     std::string timestamp=ss.str();
 	string lastLine = readLastLine(filename);
 	//ASSERT
-	string actual = timestamp+";-;500.00;\"other\";RON ";
+	string actual = timestamp+";-;500.00;other;RON ";
 	//cout <<"ceea ce cautam : " << actual<<endl;
 	EXPECT_EQ(actual, readLastLine(filename));
 	//CLEANUP

@@ -8,7 +8,7 @@ GTEST_LIB=$(GTEST_DIR)\make\gtest_main.a
 
 GTEST_INC=-isystem $(GTEST_DIR)\include
 
-app:
+moneytracker:
 	$(MAKE) -C main 
 	$(MAKE) -C errors
 	$(MAKE) -C interpreter

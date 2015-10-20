@@ -66,7 +66,7 @@ void Wallet :: addEntry(const char operation, const float amount,
 			} else {
 				workFile << "00.00" << ";";
 			}
-			workFile <<"\""<<typeOfEntry<<"\""<<";"<<"RON \n"; 
+			workFile <<typeOfEntry<<";"<<"RON \n"; 
 			workFile.close();
 			if (typeOfEntry == "salary") {
 				Success_C::SetSuccess(INCOME_REG_SUCC);
