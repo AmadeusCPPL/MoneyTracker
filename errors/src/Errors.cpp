@@ -9,14 +9,10 @@
 //function used to return the system time
 std::string Success_C::GetTime()
 {
-	time_t rawtime;
-	struct tm * timeinfo;
-	char buffer [80];
-
-	time (&rawtime);
-	timeinfo = localtime (&rawtime);
-
-	strftime (buffer,80," %a, %d %b %Y %H:%M:%S GMT",timeinfo);
+	time_t epoch = time(0);
+	tm* gmt = gmtime(&epoch);
+	char buffer[80];
+	strftime(buffer, 80, "%a, %d %b %Y %H:%M:%S GMT ", gmt);
 	std::string mystring = std::string(buffer);
 	
 	return mystring;	
